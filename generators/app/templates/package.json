@@ -1,0 +1,9 @@
+{
+  "name": "app-module-<%= name %>",
+  "version": "1.0.0",
+  "description": "<%= description %>",
+  "main": "index.js",
+  "scripts": {
+    "build-dev": "./scripts/build-dev.sh"
+  }
+}

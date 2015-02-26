@@ -1,0 +1,22 @@
+{
+  "name": "generator-app-module",
+  "version": "1.0.0",
+  "description": "Generator for the holidayextras app modules template",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/**/*Test.js"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "author": "Luke Hansell <luke.hansell@holidayextras.com> (https://twitter.com/luke_hansell)",
+  "license": "ISC",
+  "dependencies": {
+    "camel-case": "^1.1.1",
+    "yeoman-generator": "^0.18.9"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2"
+  }
+}

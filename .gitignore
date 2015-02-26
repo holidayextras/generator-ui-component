@@ -1,0 +1,3 @@
+.idea
+tests/generators/app/tmp
+node_modules
