@@ -8,10 +8,10 @@ module.exports = generators.Base.extend({
     this.prompt({
       type    : 'input',
       name    : 'name',
-      message : 'module name [app-module-]',
+      message : 'view name [webapp-view-]',
       default : this.appname
     }, function ( answers ) {
-      this.options.name = answers.name.replace(/^app\-module\-/, '');
+      this.options.name = answers.name.replace(/^webapp\-view\-/, '');
       this.options.camelName = camelCase(this.options.name);
       done();
     }.bind(this));

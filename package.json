@@ -1,7 +1,7 @@
 {
-  "name": "generator-app-module",
+  "name": "generator-webapp-view",
   "version": "1.0.0",
-  "description": "Generator for the holidayextras app modules template",
+  "description": "Generator for the holidayextras webapp views template",
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/**/*Test.js"
