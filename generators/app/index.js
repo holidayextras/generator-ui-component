@@ -29,9 +29,9 @@ module.exports = generators.Base.extend({
   },
   scaffoldFolders: function(){
     this.mkdir("code");
-    this.mkdir("code/style");
-    this.mkdir("code/template");
-    this.mkdir("code/view");
+    this.mkdir("code/styles");
+    this.mkdir("code/templates");
+    this.mkdir("code/views");
     this.mkdir("dev");
     this.mkdir("scripts");
     this.mkdir("tests");
@@ -55,13 +55,13 @@ module.exports = generators.Base.extend({
       {name: this.options.camelName}
     );
     this.fs.copyTpl(
-      this.templatePath('code/view/view.jsx'),
-      this.destinationPath('code/view/' + this.options.camelName + 'View.jsx'),
+      this.templatePath('code/views/view.jsx'),
+      this.destinationPath('code/views/' + this.options.camelName + 'View.jsx'),
       {name: this.options.camelName}
     );
     this.fs.copyTpl(
-      this.templatePath('code/template/template.jsx'),
-      this.destinationPath('code/template/' + this.options.camelName + 'Template.jsx'),
+      this.templatePath('code/templates/template.jsx'),
+      this.destinationPath('code/templates/' + this.options.camelName + 'Template.jsx'),
       {name: this.options.name}
     );
   },

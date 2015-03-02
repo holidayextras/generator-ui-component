@@ -67,14 +67,14 @@ describe('app-module generator', function(){
     it('creates code folder', function(){
       assert.file(resultDir + '/code');
     });
-    it('creates code/style folder', function(){
-      assert.file(resultDir + '/code/style');
+    it('creates code/styles folder', function(){
+      assert.file(resultDir + '/code/styles');
     });
-    it('creates code/template folder', function(){
-      assert.file(resultDir + '/code/template');
+    it('creates code/templates folder', function(){
+      assert.file(resultDir + '/code/templates');
     });
-    it('creates code/view folder', function(){
-      assert.file(resultDir + '/code/view');
+    it('creates code/views folder', function(){
+      assert.file(resultDir + '/code/views');
     });
     it('creates dev folder', function(){
       assert.file(resultDir + '/dev');
@@ -117,25 +117,25 @@ describe('app-module generator', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, "module.exports = require('./view/" + camelName + "View.jsx');");
+        assert.fileContent(file, "module.exports = require('./views/" + camelName + "View.jsx');");
       });
     });
     
-    describe('view/view.js', function(){
+    describe('views/view.js', function(){
     
-      var file = resultDir + '/code/view/' + camelName + 'View.jsx';
+      var file = resultDir + '/code/views/' + camelName + 'View.jsx';
       
       it('creates the view.js file', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, "return require('./../template/" + camelName + "Template.jsx')(this.props);")
+        assert.fileContent(file, "return require('../templates/" + camelName + "Template.jsx')(this.props);")
       });
     });
     
-    describe('template/template.js', function(){
+    describe('templates/template.js', function(){
     
-      var file = resultDir + '/code/template/' + camelName + 'Template.jsx';
+      var file = resultDir + '/code/templates/' + camelName + 'Template.jsx';
       
       it('creates the template.js file', function(){
         assert.file(file);

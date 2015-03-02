@@ -6,10 +6,10 @@ This generator will create the default files and directory structure for a share
 The structure created looks as follows:
 ```
 ├ code/
-│  ├ style/
-│  ├ template/
+│  ├ styles/
+│  ├ templates/
 │  │  └ [module-name]Template.jsx 
-│  ├ view/
+│  ├ views/
 │  │  └ [module-name]View.jsx
 │  └ index.js
 ├ dev/
@@ -55,16 +55,16 @@ these files in this dir by creating a directory with the brand name and writing 
 file of the same name within this directory. See the 
 [documentation on Redirectify](https://www.npmjs.com/package/redirectify) for more information.
 
-    * **code/style/**
+    * **code/styles/**
 This is the home off `.less` files to provide feature specific styles which is intended only to make the current feature
 display correctly. For instance, you shouldn't be styling the colour of a button specific to a brand, but if a brand
 requires the button to be displayed in a different place or with a different `display` style.
 
-    * **code/template/**
+    * **code/templates/**
 In this folder are the template files which return [jsx](http://facebook.github.io/react/docs/jsx-in-depth.html) 
 which will be built into [React](http://facebook.github.io/react/) views.
 
-    * **code/view/**
+    * **code/views/**
 This directory contains the [React](http://facebook.github.io/react/) view creation. These React views are responsible
 for returning the templates and may do some processing on the properties they are defined with.
 
