@@ -5,7 +5,7 @@ This generator will create the default files and directory structure for a share
 
 The structure created looks as follows:
 ```
-├ app/
+├ code/
 │  ├ style/
 │  ├ template/
 │  │  └ [module-name]Template.jsx 
@@ -48,28 +48,28 @@ To run the tests:
 `npm test`
 
 ## Generated Directory breakdown
-* **app/**
-The app folder hold the source for the module. Because we use [Browserify](http://browserify.org/) and 
+* **code/**
+The code folder hold the source for the module. Because we use [Browserify](http://browserify.org/) and 
 [Redirectify](https://www.npmjs.com/package/redirectify) you can allow for brand specific overrides of any of 
 these files in this dir by creating a directory with the brand name and writing the override into a
 file of the same name within this directory. See the 
 [documentation on Redirectify](https://www.npmjs.com/package/redirectify) for more information.
 
-    * **app/style/**
+    * **code/style/**
 This is the home off `.less` files to provide feature specific styles which is intended only to make the current feature
 display correctly. For instance, you shouldn't be styling the colour of a button specific to a brand, but if a brand
 requires the button to be displayed in a different place or with a different `display` style.
 
-    * **app/template/**
+    * **code/template/**
 In this folder are the template files which return [jsx](http://facebook.github.io/react/docs/jsx-in-depth.html) 
 which will be built into [React](http://facebook.github.io/react/) views.
 
-    * **app/view/**
+    * **code/view/**
 This directory contains the [React](http://facebook.github.io/react/) view creation. These React views are responsible
 for returning the templates and may do some processing on the properties they are defined with.
 
-    * **app/index.js**
-This provides a quick accessor to the view so that it can be included by requiring the `app` directory as a whole.
+    * **code/index.js**
+This provides a quick accessor to the view so that it can be included by requiring the `code` directory as a whole.
 
 * **dev/**
 This is the home of the development environment for the module. When you run `npm run build-dev` 

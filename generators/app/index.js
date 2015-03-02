@@ -28,10 +28,10 @@ module.exports = generators.Base.extend({
     }.bind(this));
   },
   scaffoldFolders: function(){
-    this.mkdir("app");
-    this.mkdir("app/style");
-    this.mkdir("app/template");
-    this.mkdir("app/view");
+    this.mkdir("code");
+    this.mkdir("code/style");
+    this.mkdir("code/template");
+    this.mkdir("code/view");
     this.mkdir("dev");
     this.mkdir("scripts");
     this.mkdir("tests");
@@ -48,20 +48,20 @@ module.exports = generators.Base.extend({
       }
     );
   },
-  writingAppDir: function () {
+  writingCodeDir: function () {
     this.fs.copyTpl(
-      this.templatePath('app/index.js'),
-      this.destinationPath('app/index.js'),
+      this.templatePath('code/index.js'),
+      this.destinationPath('code/index.js'),
       {name: this.options.camelName}
     );
     this.fs.copyTpl(
-      this.templatePath('app/view/view.jsx'),
-      this.destinationPath('app/view/' + this.options.camelName + 'View.jsx'),
+      this.templatePath('code/view/view.jsx'),
+      this.destinationPath('code/view/' + this.options.camelName + 'View.jsx'),
       {name: this.options.camelName}
     );
     this.fs.copyTpl(
-      this.templatePath('app/template/template.jsx'),
-      this.destinationPath('app/template/' + this.options.camelName + 'Template.jsx'),
+      this.templatePath('code/template/template.jsx'),
+      this.destinationPath('code/template/' + this.options.camelName + 'Template.jsx'),
       {name: this.options.name}
     );
   },

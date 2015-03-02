@@ -64,17 +64,17 @@ describe('app-module generator', function(){
   });
   
   describe('scaffoldFolders()', function(){
-    it('creates app folder', function(){
-      assert.file(resultDir + '/app');
+    it('creates code folder', function(){
+      assert.file(resultDir + '/code');
     });
-    it('creates app/style folder', function(){
-      assert.file(resultDir + '/app/style');
+    it('creates code/style folder', function(){
+      assert.file(resultDir + '/code/style');
     });
-    it('creates app/template folder', function(){
-      assert.file(resultDir + '/app/template');
+    it('creates code/template folder', function(){
+      assert.file(resultDir + '/code/template');
     });
-    it('creates app/view folder', function(){
-      assert.file(resultDir + '/app/view');
+    it('creates code/view folder', function(){
+      assert.file(resultDir + '/code/view');
     });
     it('creates dev folder', function(){
       assert.file(resultDir + '/dev');
@@ -108,10 +108,10 @@ describe('app-module generator', function(){
     });
   });
   
-  describe('writingAppDir()', function(){
+  describe('writingCodeDir()', function(){
     describe('index.js', function(){
     
-      var file = resultDir + '/app/index.js';
+      var file = resultDir + '/code/index.js';
       
       it('creates index.js file', function(){
         assert.file(file);
@@ -123,7 +123,7 @@ describe('app-module generator', function(){
     
     describe('view/view.js', function(){
     
-      var file = resultDir + '/app/view/' + camelName + 'View.jsx';
+      var file = resultDir + '/code/view/' + camelName + 'View.jsx';
       
       it('creates the view.js file', function(){
         assert.file(file);
@@ -135,7 +135,7 @@ describe('app-module generator', function(){
     
     describe('template/template.js', function(){
     
-      var file = resultDir + '/app/template/' + camelName + 'Template.jsx';
+      var file = resultDir + '/code/template/' + camelName + 'Template.jsx';
       
       it('creates the template.js file', function(){
         assert.file(file);
@@ -161,7 +161,7 @@ describe('app-module generator', function(){
         assert.file(file);
       });
       it('correctly writes the require statement', function(){
-        assert.fileContent(file, "var " + capitalizedName + " = require('../app');")
+        assert.fileContent(file, "var " + capitalizedName + " = require('../code');")
       });
       it('correctly writes the render tag', function(){
         assert.fileContent(file, "React.render(<" + capitalizedName + " />, document.body);")
