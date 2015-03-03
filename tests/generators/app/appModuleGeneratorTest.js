@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var sinon = require('sinon');
 
-describe('app-module generator', function(){
+describe('webapp-view generator', function(){
 
   var generatorDir = path.join( __dirname, '../../../generators/app');
   var resultDir = path.join( __dirname, './tmp');
@@ -23,14 +23,14 @@ describe('app-module generator', function(){
     helpers.testDirectory(resultDir, function(err){
       if(err){ return done(err); }
 
-      this.app = helpers.createGenerator('app-module', ['../../../../generators/app']);
+      this.app = helpers.createGenerator('webapp-view', ['../../../../generators/app']);
 
       npmInstall = sinon.stub(this.app, "npmInstall").returnsThis();
       prompt = sinon.spy(this.app, "prompt");
       chmod = sinon.spy(fs, "chmod");
       
       helpers.mockPrompt(this.app, {
-        name: 'app-module-' + name,
+        name: 'webapp-view-' + name,
         description: description
       });
 
@@ -101,7 +101,7 @@ describe('app-module generator', function(){
       assert.file(packageFile);
     });
     it('sets module name', function(){
-      assert.fileContent(packageFile, /\"name\": \"app\-module\-test\-module\"\,/);
+      assert.fileContent(packageFile, /\"name\": \"webapp\-view\-test\-module\"\,/);
     });
     it('sets description', function(){
       assert.fileContent(packageFile, new RegExp('\"description\": \"' + description + '\"\,'));
@@ -141,7 +141,7 @@ describe('app-module generator', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, '<div className="app-module-' + name + '">')
+        assert.fileContent(file, '<div className="webapp-view-' + name + '">')
       });
     });
   });

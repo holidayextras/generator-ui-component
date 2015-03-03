@@ -1,7 +1,7 @@
-# generator-app-module
-Generator for HX app modules using React views.
+# generator-webapp-view
+Generator for HX WebApp views using React views.
 
-This generator will create the default files and directory structure for a shared module for the modularised HX app.
+This generator will create the default files and directory structure for a shared view for the modularised HX app named WebApp.
 
 The structure created looks as follows:
 ```
@@ -38,7 +38,7 @@ Using npm you can globally install this generator:
 ## Usage
 The generator is built to work with Yeoman. Run the following command to install basic dependencies and set up the directory structure:
 
-`yo app-module`
+`yo webapp-view`
 
 You will be prompted for some information, the rest is done automagically.
 
