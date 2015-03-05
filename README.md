@@ -1,9 +1,14 @@
 # generator-webapp-view
 Generator for HX WebApp views using React views.
 
-This generator will create the default files and directory structure for a shared view for the modularised HX app named WebApp.
+This generator will create the default files and directory structure for either a shared or non-shared view for the modularised HX app named WebApp.
 
-The structure created looks as follows:
+If you are running the generator inside an existing npm app then the generator will default to the internal non-shared generator.
+
+If you are running the generator outside of an existing npm app then the generator used will be the external shared one.
+
+## Shared (External) views
+The structure created for shared views looks as follows:
 ```
 ├ code/
 │  ├ styles/
@@ -27,8 +32,23 @@ The structure created looks as follows:
 ```
 A description of the function of each of these directories can be found at the bottom of this readme.
 
-You can run this generator either in an empty directory, or one with files already in. If files of the same name exist
+You can run the external generator either in an empty directory, or one with files already in. If files of the same name exist
 then it will prompt you for conflict resolutions.
+
+### Non-Shared (Internal) views
+
+For the non-shared views it creates the following directory structure in either a named feature or the shared features folders:
+
+```
+(./code/products/views/)
+├ [module-name]/
+│  ├ styles/
+│  ├ templates/
+│  │  └ [module-name]Template.jsx 
+│  ├ views/
+│  │  └ [module-name]View.jsx
+│  └ index.js
+```
 
 ## Installation
 Using npm you can globally install this generator:
@@ -40,7 +60,16 @@ The generator is built to work with Yeoman. Run the following command to install
 
 `yo webapp-view`
 
+The generator will automatically choose which template it should be building.
 You will be prompted for some information, the rest is done automagically.
+
+If you would like to specifically run the internal generator you can specify:
+
+`yo webapp-view:internal`
+
+Alternatively if you'd like to run the external generator you can specify:
+
+`yo webapp-view:external`
 
 ## Tests
 To run the tests:
