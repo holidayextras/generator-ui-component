@@ -1,12 +1,12 @@
-var helpers = require('yeoman-generator').test;
 var assert = require('yeoman-generator').assert;
-var path = require('path');
+var helpers = require('yeoman-generator').test;
 var fs = require('fs');
+var path = require('path');
+var rimraf = require('rimraf');
 var sinon = require('sinon');
 
-describe('webapp-view generator', function(){
+describe('webapp-view:external generator', function(){
 
-  var generatorDir = path.join( __dirname, '../../../generators/app');
   var resultDir = path.join( __dirname, './tmp');
   
   var name = "test-module";
@@ -18,12 +18,12 @@ describe('webapp-view generator', function(){
   var prompt;
   var chmod;
 
-  before(function( done ){
+  beforeEach(function( done ){
     
     helpers.testDirectory(resultDir, function(err){
       if(err){ return done(err); }
 
-      this.app = helpers.createGenerator('webapp-view', ['../../../../generators/app']);
+      this.app = helpers.createGenerator('webapp-view:external', ['../../../../generators/external']);
 
       npmInstall = sinon.stub(this.app, "npmInstall").returnsThis();
       prompt = sinon.spy(this.app, "prompt");
@@ -41,14 +41,17 @@ describe('webapp-view generator', function(){
     
   });
   
-  after(function(){
+  afterEach(function(done){
     npmInstall.restore();
     prompt.restore();
     chmod.restore();
+    rimraf(resultDir, function(){
+      done();
+    });
   });
   
   it('can be required without throwing', function(){
-    this.app = require('../../../generators/app');
+    this.app = require('../../../generators/external/index');
   });
 
   describe('promptingName()', function(){
