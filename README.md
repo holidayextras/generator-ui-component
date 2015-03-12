@@ -1,16 +1,16 @@
 # generator-ui-component
-A yeoman generator for HX UI Componentscompatible with the HX Webapp Template using React views.
+A yeoman generator for HX UI Componentscompatible with the HX Webapp Template using React view components.
 
-This generator will create the default files and directory structure for a shared view for the modularised HX app named WebApp.
+This generator will create the default files and directory structure for a HX UI Toolkit compatible view component.
 
 The structure created looks as follows:
 ```
 ├ code/
 │  ├ styles/
 │  ├ templates/
-│  │  └ [module-name]Template.jsx 
+│  │  └ [module-name]ComponentTemplate.jsx 
 │  ├ views/
-│  │  └ [module-name]View.jsx
+│  │  └ [module-name]Component.jsx
 │  └ index.js
 ├ dev/
 │  ├ example.jsx
@@ -62,14 +62,14 @@ requires the button to be displayed in a different place or with a different `di
 
     * **code/templates/**
 In this folder are the template files which return [jsx](http://facebook.github.io/react/docs/jsx-in-depth.html) 
-which will be built into [React](http://facebook.github.io/react/) views.
+which will be built into the resulting [React](http://facebook.github.io/react/) view component.
 
     * **code/views/**
-This directory contains the [React](http://facebook.github.io/react/) view creation. These React views are responsible
+This directory contains the [React](http://facebook.github.io/react/) view component creation. These React view components are responsible
 for returning the templates and may do some processing on the properties they are defined with.
 
     * **code/index.js**
-This provides a quick accessor to the view so that it can be included by requiring the `code` directory as a whole.
+This provides a quick accessor to the component so that it can be included by requiring the `code` directory as a whole.
 
 * **dev/**
 This is the home of the development environment for the module. When you run `npm run build-dev` 
