@@ -27,6 +27,13 @@ To build a distributable version of the component:
 
 Note this will *not* bundle React. It will assume that's in scope to use in your project already.
 
+## Running the tests
+Once generated, you can run a components tests with:
+
+`npm test`
+
+Tests are written using [Jest](https://facebook.github.io/jest/).
+
 ## Parameters
 
 ## Example
@@ -43,5 +50,3 @@ module.exports = React.createClass({
   }
 });
 ```
-
-## Tests
