@@ -82,6 +82,10 @@ module.exports = generators.Base.extend({
       this.templatePath('scripts/build-dev.sh'),
       this.destinationPath('scripts/build-dev.sh')
     );
+    this.fs.copy(
+      this.templatePath('scripts/build-dist.sh'),
+      this.destinationPath('scripts/build-dist.sh')
+    );
   },
   writingMainIndexFile: function () {
     this.fs.copy(

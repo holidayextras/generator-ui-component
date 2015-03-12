@@ -4,6 +4,7 @@
   "description": "<%= description %>",
   "main": "index.js",
   "scripts": {
-    "build-dev": "./scripts/build-dev.sh"
+    "build-dev": "./scripts/build-dev.sh",
+    "build-dist": "./scripts/build-dist.sh"
   }
 }
