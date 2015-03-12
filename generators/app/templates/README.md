@@ -1,4 +1,4 @@
-# webapp-view-<%= name %>
+# ui-component-<%= name %>
 <%= description %>
 
 ## Installation
@@ -14,7 +14,7 @@ To build the dev site run:
 ## Usage
 In the javascript file you wish to use it in:
 
-`var <%= capitalizedName %> = require('webapp-view-<%= name %>');`
+`var <%= capitalizedName %> = require('ui-component-<%= name %>');`
 
 Then in your React view add the tags:
 
@@ -26,7 +26,7 @@ Then in your React view add the tags:
 
 ```
 var React = require('react');
-var <%= capitalizedName %> = require('webapp-view-<%= name %>');
+var <%= capitalizedName %> = require('ui-component-<%= name %>');
 
 module.exports = React.createClass({
   render: function() {

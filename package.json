@@ -1,5 +1,5 @@
 {
-  "name": "generator-webapp-view",
+  "name": "generator-ui-component",
   "version": "1.0.0",
   "description": "Generator for the holidayextras webapp views template",
   "main": "index.js",

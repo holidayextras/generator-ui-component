@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var sinon = require('sinon');
 
-describe('webapp-view generator', function(){
+describe('ui-component generator', function(){
 
   var generatorDir = path.join( __dirname, '../../../generators/app');
   var resultDir = path.join( __dirname, './tmp');
@@ -23,14 +23,14 @@ describe('webapp-view generator', function(){
     helpers.testDirectory(resultDir, function(err){
       if(err){ return done(err); }
 
-      this.app = helpers.createGenerator('webapp-view', ['../../../../generators/app']);
+      this.app = helpers.createGenerator('ui-component', ['../../../../generators/app']);
 
       npmInstall = sinon.stub(this.app, "npmInstall").returnsThis();
       prompt = sinon.spy(this.app, "prompt");
       chmod = sinon.spy(fs, "chmod");
       
       helpers.mockPrompt(this.app, {
-        name: 'webapp-view-' + name,
+        name: 'ui-component-' + name,
         description: description
       });
 
@@ -141,7 +141,7 @@ describe('webapp-view generator', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, '<div className="webapp-view-' + name + '">')
+        assert.fileContent(file, '<div className="ui-component-' + name + '">')
       });
     });
   });

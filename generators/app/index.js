@@ -8,7 +8,7 @@ module.exports = generators.Base.extend({
     this.prompt({
       type    : 'input',
       name    : 'name',
-      message : 'view name [webapp-view-]',
+      message : 'view name [ui-component-]',
       default : this.appname
     }, function ( answers ) {
       this.options.name = answers.name.replace(/^webapp\-view\-/, '');
