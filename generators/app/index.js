@@ -33,6 +33,7 @@ module.exports = generators.Base.extend({
     this.mkdir("code/templates");
     this.mkdir("code/views");
     this.mkdir("dev");
+    this.mkdir("dist");
     this.mkdir("scripts");
     this.mkdir("tests");
     this.mkdir("tests/unit");
@@ -77,14 +78,23 @@ module.exports = generators.Base.extend({
       {name: this.options.camelName.charAt(0).toUpperCase() + this.options.camelName.slice(1)}
     );
   },
+  writingDistDir: function () {
+    this.fs.copy(
+      this.templatePath('dist/.gitkeep'),
+      this.destinationPath('dist/.gitkeep')
+    );
+  },
   writingScriptsDir: function () {
     this.fs.copy(
       this.templatePath('scripts/build-dev.sh'),
       this.destinationPath('scripts/build-dev.sh')
     );
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('scripts/build-dist.sh'),
-      this.destinationPath('scripts/build-dist.sh')
+      this.destinationPath('scripts/build-dist.sh'),
+      {
+        name: this.options.name
+      }
     );
   },
   writingMainIndexFile: function () {
