@@ -1,5 +1,5 @@
 # generator-ui-component
-Generator for HX WebApp views using React views.
+A yeoman generator for HX UI Componentscompatible with the HX Webapp Template using React views.
 
 This generator will create the default files and directory structure for a shared view for the modularised HX app named WebApp.
 
