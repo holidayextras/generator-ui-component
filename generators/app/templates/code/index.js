@@ -1,1 +1,1 @@
-module.exports = require('./views/<%= name %>View.jsx');
+module.exports = require('./views/<%= componentName %>.jsx');

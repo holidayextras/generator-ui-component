@@ -1,4 +1,4 @@
 var React = require('react');
-var <%= name %> = require('../code');
+var <%= componentName %> = require('../code');
 
-React.render(<<%= name %> />, document.body);
+React.render(<<%= componentName %> />, document.body);
