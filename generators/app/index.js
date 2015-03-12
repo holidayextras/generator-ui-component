@@ -144,7 +144,7 @@ module.exports = generators.Base.extend({
       {
         name: this.options.name,
         description: this.options.description,
-        capitalizedName: this.options.name[0].toUpperCase() + this.options.name.slice(1)
+        componentName: this.options.componentName
       }
     );
   },
