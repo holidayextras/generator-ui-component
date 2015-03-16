@@ -10,9 +10,10 @@ var _ = {
 module.exports = generators.Base.extend({
   initializing: function () {
     var done = this.async();
-    this.sourceRoot(path.join(__dirname, '/../../templates'));
-    
-    this.options.baseDir = findParentDir.sync(__dirname, 'package.json');
+
+    this.sourceRoot(path.join(this.sourceRoot(), '/../../../templates'));
+
+    this.options.baseDir = findParentDir.sync(this.destinationRoot(), 'package.json');
     if(!this.options.baseDir){
       this.env.error('Cannot use internal generator outside of an existing project');
     }
@@ -28,7 +29,7 @@ module.exports = generators.Base.extend({
     if(!this.featureDirectories || this.featureDirectories.length === 0){
       this.env.error('No feature directories were found');
     }
-    
+
     done();
   },
   promptingName: function () {
@@ -87,18 +88,18 @@ module.exports = generators.Base.extend({
       {name: this.options.name}
     );
   },
-  
+
   __getFeatures: function (rootDir) {
     return fs.readdirSync(rootDir).filter(function(file) {
       return fs.statSync(path.join(rootDir, file)).isDirectory();
     });
   },
-  
+
   __validateName: function(input) {
     if(input.match(/^[a-zA-Z\-]+$/)) return true;
     return 'Name can only include letters and dashes (-)'
   },
-  
+
   __filterName: function(input){
     return input.replace(/^webapp\-view\-/, '');
   }
