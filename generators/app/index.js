@@ -5,10 +5,7 @@ var path = require('path');
 module.exports = generators.Base.extend({
 
   initializing: function () {
-    var dir;
-
-    dir = findParentDir.sync(path.resolve(''), 'package.json');
-    if (dir) {
+    if( findParentDir.sync(path.resolve(''), 'package.json') ) {
       this.composeWith('webapp-view:internal');
     } else {
       this.composeWith('webapp-view:external');
