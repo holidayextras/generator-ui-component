@@ -4,49 +4,164 @@ var path = require('path');
 var sinon = require('sinon');
 var rimraf = require('rimraf');
 var fs = require('fs');
+var findParentDir = require('find-parent-dir');
 
 describe('webapp-view:internal generator', function () {
 
   var resultDir = path.join( __dirname, 'tmp');
   var name = 'test-view';
-  var featureDirs = ['foo','bar','shared'];
+  var featureDirs = ['bar','foo','shared'];
   var camelName = "testView";
-  var generatedDirectories = '/code/shared/views/';
+  var generatedDirectories = '/code/foo/views/';
 
   var npmInstall;
   var prompt;
   var __getFeatures;
+  var app;
+  var errorCallback;
 
-  it('can be required without throwing', function(){
-    this.app = require('../../../generators/internal/index');
+  var findParentDirSync;
+
+  var packageJson;
+
+  beforeEach(function(){
+
+    packageJson = {
+      name: 'test-app'
+    };
+    
+    errorCallback = sinon.spy();
+    app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal']);
+
+    npmInstall = sinon.stub(app, 'npmInstall').returnsThis();
+    prompt = sinon.spy(app, 'prompt');
+
+    // faking up user input
+    helpers.mockPrompt(app, {
+      name: name,
+      featureGroup: 'foo'
+    });
+    
+    app.on('error', errorCallback);
+    
+    findParentDirSync = sinon.stub(findParentDir, "sync").returns(resultDir);
+  });
+  
+  afterEach(function(done){
+    findParentDirSync.restore();
+    npmInstall.restore();
+    prompt.restore();
+    rimraf(resultDir, function () {
+      done();
+    });
+  });
+
+  describe('when required', function(){
+    beforeEach(function(){
+      app = require('../../../generators/internal/index');
+    });
+    afterEach(function(){
+      app = null
+    });
+    
+    it('does not throw an error', function(){
+      assert.ok(app);
+    });
+  });
+  
+  describe('without package.json', function() {
+    beforeEach(function () {
+      findParentDirSync.returns(null); // faking no package.json
+      app.run();
+    });
+    describe('initializing()', function () {
+      it('should error', function () {
+        assert.ok(errorCallback.called);
+      });
+    });
+  });
+  
+  describe('without code directory', function() {
+    
+    beforeEach(function (done) {
+
+      helpers.testDirectory(resultDir, function () {
+
+        fs.writeFileSync('package.json', JSON.stringify(packageJson));
+        app.run();
+        done();
+        
+      });
+    });
+
+    describe('initializing()', function () {
+      it('should error', function () {
+        assert.ok(errorCallback.called);
+      });
+    });
+  });
+  
+  describe('without feature directories', function(){
+    
+    beforeEach(function (done) {
+
+      helpers.testDirectory(resultDir, function () {
+
+        fs.writeFileSync('package.json', JSON.stringify(packageJson));
+        fs.mkdirSync(path.join(resultDir, 'code'));
+        
+        app.run();
+        done();
+
+      });
+    });
+
+    describe('initializing()', function(){
+      it('should error', function(){
+        assert.ok(errorCallback.called);
+      });
+    });
   });
   
   describe('generator functions', function(){
+    
+    var app;
+    
     beforeEach(function (done) {
-      helpers.testDirectory(resultDir, function (err) {
-        if(err){ return done(err); }
+      
+      helpers.testDirectory(resultDir, function(){
+      
+        // building required directory structure for tests
+        fs.mkdirSync(path.join(resultDir, 'code'));
+        for(var i in featureDirs){
+          fs.mkdirSync(path.join(resultDir, 'code', featureDirs[i]));
+        }
+        fs.mkdirSync(path.join(resultDir, 'code', 'foo', 'views'));
+        
+        // package.json is required in here so that we run the tests from this location
+        fs.writeFileSync('package.json', JSON.stringify(packageJson));
+        
+        app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal']);
 
-        this.app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal']);
-
-        npmInstall = sinon.stub(this.app, 'npmInstall').returnsThis();
-        prompt = sinon.spy(this.app, 'prompt');
-        __getFeatures = sinon.stub(this.app, '__getFeatures').returns(featureDirs);
-        helpers.mockPrompt(this.app, {
-          name: 'webapp-view-' + name,
-          featureGroup: 'shared'
+        //stubbing out npmInstall as we don't want this running on all tests
+        npmInstall = sinon.stub(app, 'npmInstall').returnsThis();
+        prompt = sinon.spy(app, 'prompt');
+        
+        // faking up user input
+        helpers.mockPrompt(app, {
+          name: name,
+          featureGroup: 'foo'
         });
 
-        this.app.run(function(){
+        app.run(function(){
           done();
         });
-
-      }.bind(this));
+      });
     });
 
     afterEach(function (done) {
       npmInstall.restore();
       prompt.restore();
-      __getFeatures.restore();
       rimraf(resultDir, function(){
         done();
       });
@@ -63,7 +178,7 @@ describe('webapp-view:internal generator', function () {
         assert.equal(prompt.args[1][0].name, 'featureGroup');
       });
       it('uses feature folders as choices', function(){
-        assert.equal(prompt.args[1][0].choices, featureDirs);
+        assert.deepEqual(prompt.args[1][0].choices, featureDirs);
       });
     });
 
@@ -126,14 +241,12 @@ describe('webapp-view:internal generator', function () {
   });
   
   describe('__getFeatures()', function(){
-    var app;
     beforeEach(function(){
       // create template folder stucture
       fs.mkdirSync(resultDir);
       fs.mkdirSync(resultDir + '/foo');
       fs.mkdirSync(resultDir + '/bar');
       fs.writeFileSync(resultDir + '/baz.txt', '');
-      this.app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal']);
     });
     afterEach(function(done){
       rimraf(resultDir, function(){
@@ -141,7 +254,48 @@ describe('webapp-view:internal generator', function () {
       });
     });
     it('returns subdirectory names from directory', function(){
-      assert.deepEqual(['bar', 'foo'], this.app.__getFeatures(resultDir));
+      assert.deepEqual(['bar', 'foo'], app.__getFeatures(resultDir));
+    });
+  });
+  
+  describe('__validateName()', function(){
+    describe('with valid name', function(){
+      it('returns true', function(){
+        assert.ok(app.__validateName('foo-bar'));
+      });
+    });
+    describe('with invalid name', function(){
+      it('returns an error message', function(){
+        assert.equal(typeof app.__validateName('12345'), 'string');
+      });
+    });
+  });
+  
+  describe('__filterName()', function(){
+    describe('with filtered text at start', function(){
+      it('should remove the filtered text', function(){
+        assert.equal('test-app', app.__filterName('webapp-view-test-app'));
+      });
+    });
+    describe('with filtered text during string', function(){
+      it('should return the complete string', function(){
+        assert.equal('test-webapp-view-app', app.__filterName('test-webapp-view-app'));
+      });
+    });
+    describe('with filtered text at end of string', function(){
+      it('should return the complete string', function(){
+        assert.equal('test-app-webapp-view', app.__filterName('test-app-webapp-view'));
+      });
+    });
+    describe('without filtered text in string', function(){
+      it('should return the complete string', function(){
+        assert.equal('test-app', app.__filterName('test-app'));
+      });
+    });
+    describe('with filtered text as entire string', function(){
+      it('should return string', function(){
+        assert.equal('webapp-view', app.__filterName('webapp-view'));
+      });
     });
   });
 });
