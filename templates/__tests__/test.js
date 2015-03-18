@@ -12,4 +12,4 @@ describe('<%= componentName %>', function() {
     expect(TestUtils.isElement(<<%= componentName %> />)).toBeTruthy();
   });
 
-});erged 
+});
