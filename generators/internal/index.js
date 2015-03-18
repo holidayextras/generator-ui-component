@@ -1,54 +1,40 @@
 var camelCase = require('camel-case');
 var findParentDir = require('find-parent-dir');
 var fs = require('fs');
-var generators = require('yeoman-generator');
 var path = require('path');
-var _ = {
-  union: require('amp-union')
-};
 
-module.exports = generators.Base.extend({
+var BaseGenerator = require('../base');
+
+module.exports = BaseGenerator.extend({
   initializing: function () {
     var done = this.async();
 
-    this.sourceRoot(path.join(this.sourceRoot(), '/../../../templates'));
+    this.sourceRoot(path.join(this.sourceRoot(), '/../../../templates/code'));
 
-    this.options.baseDir = findParentDir.sync(this.destinationRoot(), 'package.json');
-    if(!this.options.baseDir){
+    this.baseDir = findParentDir.sync(this.destinationRoot(), 'package.json');
+    if(!this.baseDir){
       this.env.error('Cannot use internal generator outside of an existing project');
     }
 
-    var projectPackageJson = require(this.options.baseDir + '/package.json');
+    var projectPackageJson = require(this.baseDir + '/package.json');
     this.log('Building view within project ' + projectPackageJson.name);
 
-    if(!fs.existsSync(path.join(this.options.baseDir, 'code'))){
-      this.env.error('Current project is not in expected format (no code/ directory in project root ' + this.options.baseDir + ')');
+    if(!fs.existsSync(path.join(this.baseDir, 'code'))){
+      this.env.error('Current project is not in expected format (no code/ directory in project root ' + this.baseDir + ')');
     }
 
-    this.featureDirectories = this.__getFeatures(path.join(this.options.baseDir,'code'));
+    this.featureDirectories = this.__getFeatures(path.join(this.baseDir,'code'));
     if(!this.featureDirectories || this.featureDirectories.length === 0){
       this.env.error('No feature directories were found');
     }
 
     done();
   },
-  promptingName: function () {
-    var done = this.async();
-
-    this.prompt({
-      type: 'input',
-      name: 'name',
-      message: 'view name [webapp-view-]',
-      default: this.appname,
-      validate: this.__validateName,
-      filter: this.__filterName
-    }, function (answers) {
-      this.options.name = answers.name;
-      this.options.camelName = camelCase(this.options.name);
-      done();
-    }.bind(this));
-
+  
+  prompting: function () {
+    this.promptingName();
   },
+  
   promptingFeature: function () {
     var done = this.async();
 
@@ -58,49 +44,40 @@ module.exports = generators.Base.extend({
       message: 'Which feature group should this be part of?',
       choices: this.featureDirectories
     }, function (answers) {
-      this.options.viewRoot = path.join('code', answers.featureGroup, 'views', this.options.camelName);
+      this.featureGroup = answers.featureGroup;
       done();
     }.bind(this));
 
   },
+  
+  configuringVariables: function() {
+    this.camelName = camelCase(this.name);
+    this.viewRoot = path.join('code', this.featureGroup, 'views', this.camelName);
+  },
+  
   installingDependencies: function () {
-    this.npmInstall(['browserify', 'reactify', 'redirectify', 'react'], {'save': true});
+    this.installingNPMDependencies();
   },
+  
   scaffoldFolders: function () {
-    this.mkdir(this.options.viewRoot + '/styles');
-    this.mkdir(this.options.viewRoot + '/templates');
-    this.mkdir(this.options.viewRoot + '/views');
+    this.mkdir(this.viewRoot + '/styles');
+    this.mkdir(this.viewRoot + '/templates');
+    this.mkdir(this.viewRoot + '/views');
   },
+  
   writingCodeDir: function () {
-    this.fs.copyTpl(
-      this.templatePath('code/index.js'),
-      this.destinationPath(this.options.viewRoot + '/index.js'),
-      {name: this.options.camelName}
-    );
-    this.fs.copyTpl(
-      this.templatePath('code/views/view.jsx'),
-      this.destinationPath(this.options.viewRoot + '/views/' + this.options.camelName + 'View.jsx'),
-      {name: this.options.camelName}
-    );
-    this.fs.copyTpl(
-      this.templatePath('code/templates/template.jsx'),
-      this.destinationPath(this.options.viewRoot + '/templates/' + this.options.camelName + 'Template.jsx'),
-      {name: this.options.name}
-    );
+    var camelNameOptions = {name: this.camelName};
+    var viewPath = path.join(this.viewRoot, 'views', this.camelName + 'View.jsx');
+    var templatePath = path.join(this.viewRoot, 'templates', this.camelName + 'Template.jsx');
+    
+    this._copyAndRenameTemplate('index.js', this.viewRoot + '/index.js', camelNameOptions);
+    this._copyAndRenameTemplate('views/view.jsx', viewPath, camelNameOptions);
+    this._copyAndRenameTemplate('templates/template.jsx', templatePath, {name: this.name});
   },
 
   __getFeatures: function (rootDir) {
     return fs.readdirSync(rootDir).filter(function(file) {
       return fs.statSync(path.join(rootDir, file)).isDirectory();
     });
-  },
-
-  __validateName: function(input) {
-    if(input.match(/^[a-zA-Z\-]+$/)) return true;
-    return 'Name can only include letters and dashes (-)'
-  },
-
-  __filterName: function(input){
-    return input.replace(/^webapp\-view\-/, '');
   }
 });

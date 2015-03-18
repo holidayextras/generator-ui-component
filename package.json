@@ -9,7 +9,7 @@
   "keywords": [
     "yeoman-generator"
   ],
-  "author": "Luke Hansell <luke.hansell@holidayextras.com> (https://twitter.com/luke_hansell)",
+  "author": "Luke Hansell <luke.hansell@holidayextras.com>",
   "license": "ISC",
   "dependencies": {
     "amp-extend": "^1.0.1",

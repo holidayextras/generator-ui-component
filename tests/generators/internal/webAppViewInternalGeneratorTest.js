@@ -31,7 +31,7 @@ describe('webapp-view:internal generator', function () {
     };
     
     errorCallback = sinon.spy();
-    app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal']);
+    app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal', '../../../../generators/base']);
 
     npmInstall = sinon.stub(app, 'npmInstall').returnsThis();
     prompt = sinon.spy(app, 'prompt');
@@ -141,7 +141,7 @@ describe('webapp-view:internal generator', function () {
         // package.json is required in here so that we run the tests from this location
         fs.writeFileSync('package.json', JSON.stringify(packageJson));
         
-        app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal']);
+        app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal', '../../../../generators/base']);
 
         //stubbing out npmInstall as we don't want this running on all tests
         npmInstall = sinon.stub(app, 'npmInstall').returnsThis();
@@ -162,9 +162,9 @@ describe('webapp-view:internal generator', function () {
     afterEach(function (done) {
       npmInstall.restore();
       prompt.restore();
-      rimraf(resultDir, function(){
+      //rimraf(resultDir, function(){
         done();
-      });
+      //});
     });
 
     describe('promptingName()', function(){
@@ -258,44 +258,4 @@ describe('webapp-view:internal generator', function () {
     });
   });
   
-  describe('__validateName()', function(){
-    describe('with valid name', function(){
-      it('returns true', function(){
-        assert.ok(app.__validateName('foo-bar'));
-      });
-    });
-    describe('with invalid name', function(){
-      it('returns an error message', function(){
-        assert.equal(typeof app.__validateName('12345'), 'string');
-      });
-    });
-  });
-  
-  describe('__filterName()', function(){
-    describe('with filtered text at start', function(){
-      it('should remove the filtered text', function(){
-        assert.equal('test-app', app.__filterName('webapp-view-test-app'));
-      });
-    });
-    describe('with filtered text during string', function(){
-      it('should return the complete string', function(){
-        assert.equal('test-webapp-view-app', app.__filterName('test-webapp-view-app'));
-      });
-    });
-    describe('with filtered text at end of string', function(){
-      it('should return the complete string', function(){
-        assert.equal('test-app-webapp-view', app.__filterName('test-app-webapp-view'));
-      });
-    });
-    describe('without filtered text in string', function(){
-      it('should return the complete string', function(){
-        assert.equal('test-app', app.__filterName('test-app'));
-      });
-    });
-    describe('with filtered text as entire string', function(){
-      it('should return string', function(){
-        assert.equal('webapp-view', app.__filterName('webapp-view'));
-      });
-    });
-  });
 });

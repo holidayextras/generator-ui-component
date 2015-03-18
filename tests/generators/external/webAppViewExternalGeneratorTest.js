@@ -30,7 +30,7 @@ describe('webapp-view:external generator', function(){
       chmod = sinon.spy(fs, "chmod");
       
       helpers.mockPrompt(this.app, {
-        name: 'webapp-view-' + name,
+        name: name,
         description: description
       });
 

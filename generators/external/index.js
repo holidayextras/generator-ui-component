@@ -1,26 +1,19 @@
 var camelCase = require('camel-case');
 var fs = require('fs');
-var generators = require('yeoman-generator');
 var path = require('path');
 
-module.exports = generators.Base.extend({
+var BaseGenerator = require('../base');
+
+module.exports = BaseGenerator.extend({
   initializing: function(){
     this.sourceRoot(path.join(__dirname, '/../../templates'));
     this.log('Building new shared view');
   },
-  promptingName: function () {
-    var done = this.async();
-    this.prompt({
-      type    : 'input',
-      name    : 'name',
-      message : 'view name [webapp-view-]',
-      default : this.appname
-    }, function ( answers ) {
-      this.options.name = answers.name.replace(/^webapp\-view\-/, '');
-      this.options.camelName = camelCase(this.options.name);
-      done();
-    }.bind(this));
+  
+  promptingShared: function () {
+    this.promptingName();
   },
+  
   promptingDescription: function () {
     var done = this.async();
     this.prompt({
@@ -28,10 +21,15 @@ module.exports = generators.Base.extend({
       name    : 'description',
       message : 'module description'
     }, function ( answers ) {
-      this.options.description = answers.description;
+      this.description = answers.description;
       done();
     }.bind(this));
   },
+  
+  configuringVariables: function () {
+    this.camelName = camelCase(this.name);
+  },
+  
   scaffoldFolders: function(){
     this.mkdir("code/styles");
     this.mkdir("code/templates");
@@ -42,77 +40,56 @@ module.exports = generators.Base.extend({
     this.mkdir("tests/unit");
     this.mkdir("tests/selenium");
   },
+  
   writingPackage: function () {
-    this.fs.copyTpl(
-      this.templatePath('package.json'),
-      this.destinationPath('package.json'),
-      {
-        name: this.options.name,
-        description: this.options.description
-      }
-    );
+    var options = {
+      name: this.name,
+      description: this.description
+    };
+    
+    this._copyTemplate('package.json', options);
   },
+  
   writingCodeDir: function () {
-    this.fs.copyTpl(
-      this.templatePath('code/index.js'),
-      this.destinationPath('code/index.js'),
-      {name: this.options.camelName}
-    );
-    this.fs.copyTpl(
-      this.templatePath('code/views/view.jsx'),
-      this.destinationPath('code/views/' + this.options.camelName + 'View.jsx'),
-      {name: this.options.camelName}
-    );
-    this.fs.copyTpl(
-      this.templatePath('code/templates/template.jsx'),
-      this.destinationPath('code/templates/' + this.options.camelName + 'Template.jsx'),
-      {name: this.options.name}
-    );
+    var camelNameOptions = {name: this.camelName};
+    var options = {name: this.name};
+    
+    var viewName = 'code/views/' + this.camelName + 'View.jsx';
+    var templateName = 'code/templates/' + this.camelName + 'Template.jsx';
+    
+    this._copyTemplate('code/index.js', camelNameOptions);
+    this._copyAndRenameTemplate('code/views/view.jsx', viewName, camelNameOptions );
+    this._copyAndRenameTemplate('code/templates/template.jsx', templateName, options);
   },
+  
   writingDevDir: function () {
-    this.fs.copyTpl(
-      this.templatePath('dev/index.html'),
-      this.destinationPath('dev/index.html'),
-      {title: this.options.name}
-    );
-    this.fs.copyTpl(
-      this.templatePath('dev/example.jsx'),
-      this.destinationPath('dev/example.jsx'),
-      {name: this.options.camelName.charAt(0).toUpperCase() + this.options.camelName.slice(1)}
-    );
+    var indexOptions = {title: this.name};
+    var exampleOptions = {name: this._capitalize(this.camelName)};
+
+    this._copyTemplate('dev/index.html', indexOptions);
+    this._copyTemplate('dev/example.jsx', exampleOptions);
   },
+  
   writingScriptsDir: function () {
-    this.fs.copy(
-      this.templatePath('scripts/build-dev.sh'),
-      this.destinationPath('scripts/build-dev.sh')
-    );
+    this._copyTemplate('scripts/build-dev.sh');
   },
-  writingMainIndexFile: function () {
-    this.fs.copy(
-      this.templatePath('index.js'),
-      this.destinationPath('index.js')
-    );
+  
+  writingBaseDir: function () {
+    this._copyTemplate('index.js');
+    this._copyTemplate('.gitignore');
+    
+    var readmeOptions = {
+      name: this.name,
+      description: this.description,
+      capitalizedName: this.name[0].toUpperCase() + this.name.slice(1)
+    };
+    this._copyTemplate('README.md', readmeOptions);
   },
-  writingGitIgnore: function () {
-    this.fs.copy(
-      this.templatePath('.gitignore'),
-      this.destinationPath('.gitignore')
-    );
+  
+  installDependencies: function () {
+    this.installingNPMDependencies();
   },
-  writingReadMe: function () {
-    this.fs.copyTpl(
-      this.templatePath('README.md'),
-      this.destinationPath('README.md'),
-      {
-        name: this.options.name,
-        description: this.options.description,
-        capitalizedName: this.options.name[0].toUpperCase() + this.options.name.slice(1)
-      }
-    );
-  },
-  installingDependencies: function () {
-    this.npmInstall(['browserify', 'reactify', 'redirectify', 'react'], { 'save': true });
-  },
+  
   installingPermissions: function () {
     var done = this.async();
     fs.chmod('scripts/build-dev.sh', '755', function(){
