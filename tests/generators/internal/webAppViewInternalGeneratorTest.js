@@ -6,12 +6,13 @@ var rimraf = require('rimraf');
 var fs = require('fs');
 var findParentDir = require('find-parent-dir');
 
-describe('webapp-view:internal generator', function () {
+describe('ui-component:internal generator', function () {
 
   var resultDir = path.join( __dirname, 'tmp');
   var name = 'test-view';
   var featureDirs = ['bar','foo','shared'];
   var camelName = "testView";
+  var componentName = "TestViewComponent";
   var generatedDirectories = '/code/foo/views/';
 
   var npmInstall;
@@ -31,7 +32,7 @@ describe('webapp-view:internal generator', function () {
     };
     
     errorCallback = sinon.spy();
-    app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal', '../../../../generators/base']);
+    app = helpers.createGenerator('ui-component:internal', ['../../../../generators/internal', '../../../../generators/base']);
 
     npmInstall = sinon.stub(app, 'npmInstall').returnsThis();
     prompt = sinon.spy(app, 'prompt');
@@ -141,7 +142,7 @@ describe('webapp-view:internal generator', function () {
         // package.json is required in here so that we run the tests from this location
         fs.writeFileSync('package.json', JSON.stringify(packageJson));
         
-        app = helpers.createGenerator('webapp-view:internal', ['../../../../generators/internal', '../../../../generators/base']);
+        app = helpers.createGenerator('ui-component:internal', ['../../../../generators/internal', '../../../../generators/base']);
 
         //stubbing out npmInstall as we don't want this running on all tests
         npmInstall = sinon.stub(app, 'npmInstall').returnsThis();
@@ -162,9 +163,9 @@ describe('webapp-view:internal generator', function () {
     afterEach(function (done) {
       npmInstall.restore();
       prompt.restore();
-      //rimraf(resultDir, function(){
+      rimraf(resultDir, function(){
         done();
-      //});
+      });
     });
 
     describe('promptingName()', function(){
@@ -184,7 +185,7 @@ describe('webapp-view:internal generator', function () {
 
     describe('installingDependencies()', function(){
       it('installs required dependencies', function(){
-        assert.ok(npmInstall.calledWith(['browserify', 'reactify', 'redirectify', 'react'], { 'save': true }));
+        assert.ok(npmInstall.calledWith(['browserify', 'reactify', 'redirectify', 'react', 'jest-cli', 'react-tools'], { 'save': true }));
       });
     });
 
@@ -212,29 +213,29 @@ describe('webapp-view:internal generator', function () {
           assert.file(file);
         });
         it('has the correct content', function(){
-          assert.fileContent(file, "module.exports = require('./views/" + camelName + "View.jsx');");
+          assert.fileContent(file, "module.exports = require('./views/" + componentName + "View.jsx');");
         });
       });
       describe('view.js', function(){
 
-        var file = resultDir + generatedDirectories + camelName + '/views/' + camelName + 'View.jsx';
+        var file = resultDir + generatedDirectories + camelName + '/views/' + componentName + 'View.jsx';
 
         it('is written to the correct place', function(){
           assert.file(file);
         });
         it('has the correct content', function(){
-          assert.fileContent(file, "    return require('../templates/" + camelName + "Template.jsx')(this.props);");
+          assert.fileContent(file, "    return require('../templates/" + componentName + "Template.jsx')(this.props);");
         });
       });
       describe('template.js', function(){
 
-        var file = resultDir + generatedDirectories + camelName + '/templates/' + camelName + 'Template.jsx';
+        var file = resultDir + generatedDirectories + camelName + '/templates/' + componentName + 'Template.jsx';
 
         it('is written to the correct place', function(){
           assert.file(file);
         });
         it('has the correct content', function(){
-          assert.fileContent(file, '<div className="webapp-view-test-view">');
+          assert.fileContent(file, '<div className="ui-component-test-view">');
         });
       });
     });

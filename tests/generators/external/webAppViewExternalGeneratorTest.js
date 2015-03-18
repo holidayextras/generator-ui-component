@@ -10,8 +10,7 @@ describe('ui-component:external generator', function(){
   var resultDir = path.join( __dirname, './tmp');
   
   var name = "test-module";
-  var camelName = "testModule";
-  var capitalizedName = "TestModule";
+  var componentName = 'TestModuleComponent';
   var description = "a test module";
 
   var npmInstall;
@@ -86,13 +85,7 @@ describe('ui-component:external generator', function(){
       assert.file(resultDir + '/scripts');
     });
     it('creates test folder', function(){
-      assert.file(resultDir + '/tests');
-    });
-    it('creates test/unit folder', function(){
-      assert.file(resultDir + '/tests/unit');
-    });
-    it('creates test/selenium folder', function(){
-      assert.file(resultDir + '/tests/selenium');
+      assert.file(resultDir + '/__tests__');
     });
   });
   
@@ -104,7 +97,7 @@ describe('ui-component:external generator', function(){
       assert.file(packageFile);
     });
     it('sets module name', function(){
-      assert.fileContent(packageFile, /\"name\": \"webapp\-view\-test\-module\"\,/);
+      assert.fileContent(packageFile, /\"name\": \"ui\-component\-test\-module\"\,/);
     });
     it('sets description', function(){
       assert.fileContent(packageFile, new RegExp('\"description\": \"' + description + '\"\,'));
@@ -120,25 +113,25 @@ describe('ui-component:external generator', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, "module.exports = require('./views/" + camelName + "View.jsx');");
+        assert.fileContent(file, "module.exports = require('./views/" + componentName + "View.jsx');");
       });
     });
     
     describe('views/view.js', function(){
     
-      var file = resultDir + '/code/views/' + camelName + 'View.jsx';
+      var file = resultDir + '/code/views/' + componentName + 'View.jsx';
       
       it('creates the view.js file', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, "return require('../templates/" + camelName + "Template.jsx')(this.props);")
+        assert.fileContent(file, "return require('../templates/" + componentName + "Template.jsx')(this.props);")
       });
     });
     
     describe('templates/template.js', function(){
     
-      var file = resultDir + '/code/templates/' + camelName + 'Template.jsx';
+      var file = resultDir + '/code/templates/' + componentName + 'Template.jsx';
       
       it('creates the template.js file', function(){
         assert.file(file);
@@ -164,10 +157,10 @@ describe('ui-component:external generator', function(){
         assert.file(file);
       });
       it('correctly writes the require statement', function(){
-        assert.fileContent(file, "var " + capitalizedName + " = require('../code');")
+        assert.fileContent(file, "var " + componentName + " = require('../code');")
       });
       it('correctly writes the render tag', function(){
-        assert.fileContent(file, "React.render(<" + capitalizedName + " />, document.body);")
+        assert.fileContent(file, "React.render(<" + componentName + " />, document.body);")
       });
     });
   });
@@ -199,7 +192,7 @@ describe('ui-component:external generator', function(){
   
   describe('installingDependencies()', function(){
     it('calls npm install', function(){
-      assert.ok(npmInstall.calledWith(['browserify', 'reactify', 'redirectify', 'react'], { 'save': true }));
+      assert.ok(npmInstall.calledWith(['browserify', 'reactify', 'redirectify', 'react', 'jest-cli', 'react-tools'], { 'save': true }));
     });
   });
   

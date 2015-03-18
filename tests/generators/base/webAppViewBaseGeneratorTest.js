@@ -1,11 +1,11 @@
 var assert = require('yeoman-generator').assert;
 var helpers = require('yeoman-generator').test;
 
-describe('webapp-view:base generator', function () {
+describe('ui-component:base generator', function () {
   var app;
   
   beforeEach(function(){
-    app = helpers.createGenerator('webapp-view:base', [ './generators/base']);
+    app = helpers.createGenerator('ui-component:base', [ './generators/base']);
   });
   describe('_validateName()', function(){
     describe('with valid name', function(){

@@ -6,9 +6,9 @@ module.exports = generators.Base.extend({
 
   initializing: function () {
     if( findParentDir.sync(path.resolve(''), 'package.json') ) {
-      this.composeWith('webapp-view:internal');
+      this.composeWith('ui-component:internal');
     } else {
-      this.composeWith('webapp-view:external');
+      this.composeWith('ui-component:external');
     }
   }
 });

@@ -3,13 +3,13 @@ var findParentDir = require('find-parent-dir');
 var helpers = require('yeoman-generator').test;
 var sinon = require('sinon');
 
-describe('webapp-view generator', function(){
+describe('ui-component generator', function(){
   
   var composeWith;
   var findParentDirSync;
 
   beforeEach(function(){
-    this.app = helpers.createGenerator('webapp-view', ['./generators/app']);
+    this.app = helpers.createGenerator('ui-component', ['./generators/app']);
     composeWith = sinon.stub(this.app, 'composeWith');
   });
   
@@ -30,7 +30,7 @@ describe('webapp-view generator', function(){
     });
     
     it('uses the internal generator', function(){
-      assert.ok(composeWith.calledWith('webapp-view:internal'));
+      assert.ok(composeWith.calledWith('ui-component:internal'));
     });
   });
 
@@ -47,7 +47,7 @@ describe('webapp-view generator', function(){
     });
 
     it('uses the external generator', function(){
-      assert.ok(composeWith.calledWith('webapp-view:external'));
+      assert.ok(composeWith.calledWith('ui-component:external'));
     });
   });
   

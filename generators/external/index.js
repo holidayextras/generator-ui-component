@@ -28,6 +28,7 @@ module.exports = BaseGenerator.extend({
   
   configuringVariables: function () {
     this.camelName = camelCase(this.name);
+    this.componentName = this._capitalize(this.camelName) + "Component";
   },
   
   scaffoldFolders: function(){
@@ -35,10 +36,9 @@ module.exports = BaseGenerator.extend({
     this.mkdir("code/templates");
     this.mkdir("code/views");
     this.mkdir("dev");
+    this.mkdir("dist");
     this.mkdir("scripts");
-    this.mkdir("tests");
-    this.mkdir("tests/unit");
-    this.mkdir("tests/selenium");
+    this.mkdir("__tests__");
   },
   
   writingPackage: function () {
@@ -51,27 +51,46 @@ module.exports = BaseGenerator.extend({
   },
   
   writingCodeDir: function () {
-    var camelNameOptions = {name: this.camelName};
+    var componentNameOptions = {componentName: this.componentName};
     var options = {name: this.name};
     
-    var viewName = 'code/views/' + this.camelName + 'View.jsx';
-    var templateName = 'code/templates/' + this.camelName + 'Template.jsx';
+    var viewName = 'code/views/' + this.componentName + 'View.jsx';
+    var templateName = 'code/templates/' + this.componentName + 'Template.jsx';
     
-    this._copyTemplate('code/index.js', camelNameOptions);
-    this._copyAndRenameTemplate('code/views/view.jsx', viewName, camelNameOptions );
+    this._copyTemplate('code/index.js', componentNameOptions);
+    this._copyAndRenameTemplate('code/views/view.jsx', viewName, componentNameOptions );
     this._copyAndRenameTemplate('code/templates/template.jsx', templateName, options);
   },
   
   writingDevDir: function () {
-    var indexOptions = {title: this.name};
-    var exampleOptions = {name: this._capitalize(this.camelName)};
+    var indexOptions = {name: this.name};
+    var exampleOptions = {componentName: this.componentName};
 
     this._copyTemplate('dev/index.html', indexOptions);
     this._copyTemplate('dev/example.jsx', exampleOptions);
   },
   
+  writingDistDir: function () {
+    this.fs.copy(
+      this.templatePath('dist/.gitkeep'),
+      this.destinationPath('dist/.gitkeep')
+    );
+  },
+  
   writingScriptsDir: function () {
-    this._copyTemplate('scripts/build-dev.sh');
+    var options = {name: this.name};
+    this._copyTemplate('scripts/build-dev.sh', options);
+    this._copyTemplate('scripts/build-dist.sh', options);
+  },
+  
+  writingTests: function() {
+    // Copy the test over
+    this._copyAndRenameTemplate('__tests__/test.js', '__tests__/' + this.componentName + '-test.js',
+      {componentName: this.componentName}
+    );
+
+    // Copy the preprocessor over
+    this._copyTemplate('preprocessor.js');
   },
   
   writingBaseDir: function () {
@@ -81,7 +100,7 @@ module.exports = BaseGenerator.extend({
     var readmeOptions = {
       name: this.name,
       description: this.description,
-      capitalizedName: this.name[0].toUpperCase() + this.name.slice(1)
+      componentName: this.componentName
     };
     this._copyTemplate('README.md', readmeOptions);
   },

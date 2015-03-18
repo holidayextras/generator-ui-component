@@ -19,7 +19,7 @@ module.exports = generators.Base.extend({
   },
 
   installingNPMDependencies: function () {
-    this.npmInstall(['browserify', 'reactify', 'redirectify', 'react'], { 'save': true });
+    this.npmInstall(['browserify', 'reactify', 'redirectify', 'react', 'jest-cli', 'react-tools'], { 'save': true });
   },
   
   _validateName: function(input) {

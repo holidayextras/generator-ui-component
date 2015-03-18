@@ -52,6 +52,7 @@ module.exports = BaseGenerator.extend({
   
   configuringVariables: function() {
     this.camelName = camelCase(this.name);
+    this.componentName = this._capitalize(this.camelName) + 'Component';
     this.viewRoot = path.join('code', this.featureGroup, 'views', this.camelName);
   },
   
@@ -66,12 +67,12 @@ module.exports = BaseGenerator.extend({
   },
   
   writingCodeDir: function () {
-    var camelNameOptions = {name: this.camelName};
-    var viewPath = path.join(this.viewRoot, 'views', this.camelName + 'View.jsx');
-    var templatePath = path.join(this.viewRoot, 'templates', this.camelName + 'Template.jsx');
+    var componentNameOptions = {componentName: this.componentName};
+    var viewPath = path.join(this.viewRoot, 'views', this.componentName + 'View.jsx');
+    var templatePath = path.join(this.viewRoot, 'templates', this.componentName + 'Template.jsx');
     
-    this._copyAndRenameTemplate('index.js', this.viewRoot + '/index.js', camelNameOptions);
-    this._copyAndRenameTemplate('views/view.jsx', viewPath, camelNameOptions);
+    this._copyAndRenameTemplate('index.js', this.viewRoot + '/index.js', componentNameOptions);
+    this._copyAndRenameTemplate('views/view.jsx', viewPath, componentNameOptions);
     this._copyAndRenameTemplate('templates/template.jsx', templatePath, {name: this.name});
   },
 
