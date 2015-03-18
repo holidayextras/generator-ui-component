@@ -13,9 +13,9 @@ The structure created for shared views looks as follows:
 ├ code/
 │  ├ styles/
 │  ├ templates/
-│  │  └ [module-name]ComponentTemplate.jsx 
+│  │  └ [component-name]ComponentTemplate.jsx 
 │  ├ views/
-│  │  └ [module-name]Component.jsx
+│  │  └ [component-name]Component.jsx
 │  └ index.js
 ├ dev/
 │  ├ example.jsx
@@ -41,12 +41,12 @@ For the non-shared views it creates the following directory structure in either 
 
 ```
 (./code/products/views/)
-├ [module-name]/
+├ [component-name]/
 │  ├ styles/
 │  ├ templates/
-│  │  └ [module-name]Template.jsx 
+│  │  └ [component-name]Template.jsx 
 │  ├ views/
-│  │  └ [module-name]View.jsx
+│  │  └ [component-name]View.jsx
 │  └ index.js
 ```
 
@@ -65,11 +65,11 @@ You will be prompted for some information, the rest is done automagically.
 
 If you would like to specifically run the internal generator you can specify:
 
-`yo webapp-view:internal`
+`yo ui-component:internal`
 
 Alternatively if you'd like to run the external generator you can specify:
 
-`yo webapp-view:external`
+`yo ui-component:external`
 
 ## Tests
 To run the tests:
@@ -81,7 +81,7 @@ To run the tests:
 Place any tests for the resulting view component or any sub-components in here. Tests are written with [Jest](https://facebook.github.io/jest/).
 
 * **code/**
-The code folder hold the source for the module. Because we use [Browserify](http://browserify.org/) and
+The code folder hold the source for the component. Because we use [Browserify](http://browserify.org/) and
 [Redirectify](https://www.npmjs.com/package/redirectify) you can allow for brand specific overrides of any of
 these files in this dir by creating a directory with the brand name and writing the override into a
 file of the same name within this directory. See the [documentation on Redirectify](https://www.npmjs.com/package/redirectify) for more information.
@@ -103,9 +103,9 @@ for returning the templates and may do some processing on the properties they ar
 This provides a quick accessor to the component so that it can be included by requiring the `code` directory as a whole.
 
 * **dev/**
-This is the home of the development environment for the module. When you run `npm run build-dev`
-[Browserify](http://browserify.org/) bundles from the `example.jsx` file which includes the modules root directory
-(`./generators/app`). Loading the `index.html` in your browser will display the module.
+This is the home of the development environment for the component. When you run `npm run build-dev`
+[Browserify](http://browserify.org/) bundles from the `example.jsx` file which includes the component's root directory
+(`./generators/app`). Loading the `index.html` in your browser will display the component.
 
 
 * **scripts/**

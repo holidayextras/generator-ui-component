@@ -7,7 +7,7 @@ module.exports = generators.Base.extend({
     this.prompt({
       type: 'input',
       name: 'name',
-      message: 'view name [webapp-view-]',
+      message: 'view name [ui-component-]',
       default: this.appname,
       validate: this._validateName,
       filter: this._filterName
@@ -28,7 +28,7 @@ module.exports = generators.Base.extend({
   },
 
   _filterName: function(input){
-    return input.replace(/^webapp\-view\-/, '');
+    return input.replace(/^ui\-component\-/, '');
   },
   
   _copyAndRenameTemplate: function(template, destination, options) {

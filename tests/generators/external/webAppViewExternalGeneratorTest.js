@@ -11,7 +11,7 @@ describe('ui-component:external generator', function(){
   
   var name = "test-module";
   var componentName = 'TestModuleComponent';
-  var description = "a test module";
+  var description = "a test component";
 
   var npmInstall;
   var prompt;
@@ -96,7 +96,7 @@ describe('ui-component:external generator', function(){
     it('creates package.json file', function(){
       assert.file(packageFile);
     });
-    it('sets module name', function(){
+    it('sets component name', function(){
       assert.fileContent(packageFile, /\"name\": \"ui\-component\-test\-module\"\,/);
     });
     it('sets description', function(){

@@ -23,17 +23,17 @@ describe('ui-component:base generator', function () {
   describe('_filterName()', function(){
     describe('with filtered text at start', function(){
       it('should remove the filtered text', function(){
-        assert.equal('test-app', app._filterName('webapp-view-test-app'));
+        assert.equal('test-app', app._filterName('ui-component-test-app'));
       });
     });
     describe('with filtered text during string', function(){
       it('should return the complete string', function(){
-        assert.equal('test-webapp-view-app', app._filterName('test-webapp-view-app'));
+        assert.equal('test-ui-component-app', app._filterName('test-ui-component-app'));
       });
     });
     describe('with filtered text at end of string', function(){
       it('should return the complete string', function(){
-        assert.equal('test-app-webapp-view', app._filterName('test-app-webapp-view'));
+        assert.equal('test-app-ui-component', app._filterName('test-app-ui-component'));
       });
     });
     describe('without filtered text in string', function(){
@@ -43,7 +43,7 @@ describe('ui-component:base generator', function () {
     });
     describe('with filtered text as entire string', function(){
       it('should return string', function(){
-        assert.equal('webapp-view', app._filterName('webapp-view'));
+        assert.equal('ui-component', app._filterName('ui-component'));
       });
     });
   });

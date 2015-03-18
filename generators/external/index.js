@@ -19,7 +19,7 @@ module.exports = BaseGenerator.extend({
     this.prompt({
       type    : 'input',
       name    : 'description',
-      message : 'module description'
+      message : 'component description'
     }, function ( answers ) {
       this.description = answers.description;
       done();
