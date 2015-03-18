@@ -5,7 +5,7 @@ var path = require('path');
 var rimraf = require('rimraf');
 var sinon = require('sinon');
 
-describe('webapp-view:external generator', function(){
+describe('ui-component:external generator', function(){
 
   var resultDir = path.join( __dirname, './tmp');
   
@@ -23,7 +23,7 @@ describe('webapp-view:external generator', function(){
     helpers.testDirectory(resultDir, function(err){
       if(err){ return done(err); }
 
-      this.app = helpers.createGenerator('webapp-view:external', ['../../../../generators/external']);
+      this.app = helpers.createGenerator('ui-component:external', ['../../../../generators/external']);
 
       npmInstall = sinon.stub(this.app, "npmInstall").returnsThis();
       prompt = sinon.spy(this.app, "prompt");
@@ -144,7 +144,7 @@ describe('webapp-view:external generator', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, '<div className="webapp-view-' + name + '">')
+        assert.fileContent(file, '<div className="ui-component-' + name + '">')
       });
     });
   });

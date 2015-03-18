@@ -1,7 +1,7 @@
-# generator-webapp-view
-Generator for HX WebApp views using React views.
+# generator-ui-component
+A yeoman generator for HX UI Components compatible with the HX Webapp Template using React view components.
 
-This generator will create the default files and directory structure for either a shared or non-shared view for the modularised HX app named WebApp.
+This generator will create the default files and directory structure for a HX UI Toolkit compatible view component.
 
 If you are running the generator inside an existing npm app then the generator will default to the internal non-shared generator.
 
@@ -13,9 +13,9 @@ The structure created for shared views looks as follows:
 ├ code/
 │  ├ styles/
 │  ├ templates/
-│  │  └ [module-name]Template.jsx 
+│  │  └ [module-name]ComponentTemplate.jsx 
 │  ├ views/
-│  │  └ [module-name]View.jsx
+│  │  └ [module-name]Component.jsx
 │  └ index.js
 ├ dev/
 │  ├ example.jsx
@@ -58,7 +58,7 @@ Using npm you can globally install this generator:
 ## Usage
 The generator is built to work with Yeoman. Run the following command to install basic dependencies and set up the directory structure:
 
-`yo webapp-view`
+`yo ui-component`
 
 The generator will automatically choose which template it should be building.
 You will be prompted for some information, the rest is done automagically.
@@ -77,12 +77,14 @@ To run the tests:
 `npm test`
 
 ## Generated Directory breakdown
+* **__tests__/**
+Place any tests for the resulting view component or any sub-components in here. Tests are written with [Jest](https://facebook.github.io/jest/).
+
 * **code/**
-The code folder hold the source for the module. Because we use [Browserify](http://browserify.org/) and 
-[Redirectify](https://www.npmjs.com/package/redirectify) you can allow for brand specific overrides of any of 
+The code folder hold the source for the module. Because we use [Browserify](http://browserify.org/) and
+[Redirectify](https://www.npmjs.com/package/redirectify) you can allow for brand specific overrides of any of
 these files in this dir by creating a directory with the brand name and writing the override into a
-file of the same name within this directory. See the 
-[documentation on Redirectify](https://www.npmjs.com/package/redirectify) for more information.
+file of the same name within this directory. See the [documentation on Redirectify](https://www.npmjs.com/package/redirectify) for more information.
 
     * **code/styles/**
 This is the home off `.less` files to provide feature specific styles which is intended only to make the current feature
@@ -91,17 +93,17 @@ requires the button to be displayed in a different place or with a different `di
 
     * **code/templates/**
 In this folder are the template files which return [jsx](http://facebook.github.io/react/docs/jsx-in-depth.html) 
-which will be built into [React](http://facebook.github.io/react/) views.
+which will be built into the resulting [React](http://facebook.github.io/react/) view component.
 
     * **code/views/**
-This directory contains the [React](http://facebook.github.io/react/) view creation. These React views are responsible
+This directory contains the [React](http://facebook.github.io/react/) view component creation. These React view components are responsible
 for returning the templates and may do some processing on the properties they are defined with.
 
     * **code/index.js**
-This provides a quick accessor to the view so that it can be included by requiring the `code` directory as a whole.
+This provides a quick accessor to the component so that it can be included by requiring the `code` directory as a whole.
 
 * **dev/**
-This is the home of the development environment for the module. When you run `npm run build-dev` 
+This is the home of the development environment for the module. When you run `npm run build-dev`
 [Browserify](http://browserify.org/) bundles from the `example.jsx` file which includes the modules root directory
 (`./generators/app`). Loading the `index.html` in your browser will display the module.
 
@@ -110,6 +112,3 @@ This is the home of the development environment for the module. When you run `np
 In here is the `build-dev.sh` script which runs [Browserify](http://browserify.org/) on the `dev/example.jsx` file.
 You can specify a variant brand to build by specifying `VARIANT=[brand-name] npm run build-dev`.
 
-
-* **tests/**
-Place any tests for the module in here.
