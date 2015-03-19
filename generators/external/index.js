@@ -71,10 +71,7 @@ module.exports = BaseGenerator.extend({
   },
   
   writingDistDir: function () {
-    this.fs.copy(
-      this.templatePath('dist/.gitkeep'),
-      this.destinationPath('dist/.gitkeep')
-    );
+    this._copyAndRenameTemplate('dist/_gitkeep', 'dist/.gitkeep');
   },
   
   writingScriptsDir: function () {
@@ -95,7 +92,7 @@ module.exports = BaseGenerator.extend({
   
   writingBaseDir: function () {
     this._copyTemplate('index.js');
-    this._copyTemplate('.gitignore');
+    this._copyAndRenameTemplate('_gitignore', '.gitignore');
     
     var readmeOptions = {
       name: this.name,
