@@ -2,7 +2,7 @@
 <%= description %>
 
 ## Installation
-To install this module:
+To install this component:
 
 `npm install [git repo]`
 
