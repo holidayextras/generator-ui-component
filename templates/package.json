@@ -8,6 +8,9 @@
     "build-dist": "./scripts/build-dist.sh",
     "test": "jest"
   },
+  "browserify": {
+    "transform": ["reactify"]
+  },
   "jest": {
     "scriptPreprocessor": "<rootDir>/preprocessor.js",
     "unmockedModulePathPatterns": [
