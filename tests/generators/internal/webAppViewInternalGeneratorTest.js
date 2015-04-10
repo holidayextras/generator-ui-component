@@ -11,8 +11,9 @@ describe('ui-component:internal generator', function () {
   var resultDir = path.join( __dirname, 'tmp');
   var name = 'test-view';
   var featureDirs = ['bar','foo','shared'];
-  var camelName = "testView";
+  var snakeName = "test_view";
   var componentName = "TestViewComponent";
+  var fileName = 'test_view_component';
   var generatedDirectories = '/code/foo/views/';
 
   var npmInstall;
@@ -191,45 +192,45 @@ describe('ui-component:internal generator', function () {
 
     describe('scaffoldFolders()', function(){
       it('creates new view folder', function(){
-        assert.file(resultDir + generatedDirectories + camelName)
+        assert.file(resultDir + generatedDirectories + snakeName)
       });
       it('creates styles folder', function(){
-        assert.file(resultDir + generatedDirectories + camelName + '/styles');
+        assert.file(resultDir + generatedDirectories + snakeName + '/styles');
       });
       it('creates templates folder', function(){
-        assert.file(resultDir + generatedDirectories + camelName + '/templates');
+        assert.file(resultDir + generatedDirectories + snakeName + '/templates');
       });
       it('creates views folder', function(){
-        assert.file(resultDir + generatedDirectories + camelName + '/views');
+        assert.file(resultDir + generatedDirectories + snakeName + '/views');
       });
     });
 
     describe('writingCodeDir()', function(){
       describe('index.js', function(){
 
-        var file = resultDir + generatedDirectories + camelName + '/index.js';
+        var file = resultDir + generatedDirectories + snakeName + '/index.js';
 
         it('is written to the correct place', function(){
           assert.file(file);
         });
         it('has the correct content', function(){
-          assert.fileContent(file, "module.exports = require('./views/" + componentName + "View.jsx');");
+          assert.fileContent(file, "module.exports = require('./views/" + fileName + "_view.jsx');");
         });
       });
       describe('view.js', function(){
 
-        var file = resultDir + generatedDirectories + camelName + '/views/' + componentName + 'View.jsx';
+        var file = resultDir + generatedDirectories + snakeName + '/views/' + fileName + '_view.jsx';
 
         it('is written to the correct place', function(){
           assert.file(file);
         });
         it('has the correct content', function(){
-          assert.fileContent(file, "    return require('../templates/" + componentName + "Template.jsx')(this.props);");
+          assert.fileContent(file, "    return require('../templates/" + fileName + "_template.jsx')(this.props);");
         });
       });
       describe('template.js', function(){
 
-        var file = resultDir + generatedDirectories + camelName + '/templates/' + componentName + 'Template.jsx';
+        var file = resultDir + generatedDirectories + snakeName + '/templates/' + fileName + '_template.jsx';
 
         it('is written to the correct place', function(){
           assert.file(file);

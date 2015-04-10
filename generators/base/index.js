@@ -23,8 +23,8 @@ module.exports = generators.Base.extend({
   },
   
   _validateName: function(input) {
-    if(input.match(/^[a-zA-Z\-]+$/)) return true;
-    return 'Name can only include letters and dashes (-)'
+    if(input.match(/^[a-zA-Z\-\_]+$/)) return true;
+    return 'Name can only include letters a-z, underscores (_) and hyphens (-)';
   },
 
   _filterName: function(input){
@@ -44,6 +44,26 @@ module.exports = generators.Base.extend({
   },
   
   _capitalize: function(input){
-    return input.charAt(0).toUpperCase() + input.slice(1)
+    return input.charAt(0).toUpperCase() + input.slice(1);
+  },
+
+  _toSnakeCase: function(input) {
+    return input.toLowerCase().replace(/[\-\ ]/g, '_');
+  },
+  
+  _generateComponentName: function(input) {
+    var str = '';
+    this._toSnakeCase(input).split('_').map(function(part) {
+      str += (part.charAt(0).toUpperCase() + part.slice(1));
+    });
+    return str + 'Component';
+  },
+
+  _generateFileName: function(input, ext) {
+    return [this._toSnakeCase(input), (ext || 'jsx')].join('.')
+  },
+
+  _generateName: function(input) {
+    return this._toSnakeCase(input).replace(/_/g, '-');
   }
 });

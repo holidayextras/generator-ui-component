@@ -1,4 +1,3 @@
-var camelCase = require('camel-case');
 var fs = require('fs');
 var path = require('path');
 
@@ -27,8 +26,8 @@ module.exports = BaseGenerator.extend({
   },
   
   configuringVariables: function () {
-    this.camelName = camelCase(this.name);
-    this.componentName = this._capitalize(this.camelName) + "Component";
+    this.componentName = this._generateComponentName(this.name);
+    this.name = this._generateName(this.name);
   },
   
   scaffoldFolders: function(){
@@ -51,15 +50,21 @@ module.exports = BaseGenerator.extend({
   },
   
   writingCodeDir: function () {
-    var componentNameOptions = {componentName: this.componentName};
-    var options = {name: this.name};
-    
-    var viewName = 'code/views/' + this.componentName + 'View.jsx';
-    var templateName = 'code/templates/' + this.componentName + 'Template.jsx';
+    var view = this._generateFileName(this.name + '_component_view' );
+    var template = this._generateFileName(this.name + '_component_template' );
+
+    var componentNameOptions = {
+      componentName: this.componentName,
+      view: view,
+      template: template
+    };
+    var options = {
+      name: this.name
+    };
     
     this._copyTemplate('code/index.js', componentNameOptions);
-    this._copyAndRenameTemplate('code/views/view.jsx', viewName, componentNameOptions );
-    this._copyAndRenameTemplate('code/templates/template.jsx', templateName, options);
+    this._copyAndRenameTemplate('code/views/view.jsx', 'code/views/' + view, componentNameOptions );
+    this._copyAndRenameTemplate('code/templates/template.jsx', 'code/templates/' + template, options);
   },
   
   writingDevDir: function () {
@@ -82,7 +87,7 @@ module.exports = BaseGenerator.extend({
   
   writingTests: function() {
     // Copy the test over
-    this._copyAndRenameTemplate('__tests__/test.js', '__tests__/' + this.componentName + '-test.js',
+    this._copyAndRenameTemplate('__tests__/test.js', '__tests__/' + this._toSnakeCase(this.name) + '-test.js',
       {componentName: this.componentName}
     );
 
