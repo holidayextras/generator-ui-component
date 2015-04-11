@@ -12,7 +12,6 @@ describe('ui-component:internal generator', function () {
   var name = 'test-view';
   var featureDirs = ['bar','foo','shared'];
   var snakeName = "test_view";
-  var componentName = "TestViewComponent";
   var fileName = 'test_view_component';
   var generatedDirectories = '/code/foo/views/';
 
