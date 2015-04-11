@@ -47,4 +47,102 @@ describe('ui-component:base generator', function () {
       });
     });
   });
+  describe( '_toSnakeCase()', function() {
+    describe('no input', function() {
+      it('should return an empty string', function() {
+        assert.strictEqual('', app._toSnakeCase())
+      });
+    });
+    describe('mixed casing', function() {
+      it('should return a lowercase string', function() {
+        assert.strictEqual('foobar', app._toSnakeCase('fOoBaR'))
+      });
+    });
+    describe('hyphens in the string', function() {
+      it('should be replaced with underscores', function() {
+        assert.strictEqual('foo_bar__baz', app._toSnakeCase('foo-bar--baz'))
+      });
+    });
+    describe('spaces in the string', function() {
+      it('should be replaced with underscores', function() {
+        assert.strictEqual('foo_bar__baz', app._toSnakeCase('foo bar  baz'))
+      });
+    });
+  });
+  describe( '_generateComponentName()', function() {
+    describe('no input', function() {
+      it('should return an empty string', function() {
+        assert.strictEqual('', app._generateComponentName())
+      });
+    });
+    describe('mixed casing', function() {
+      it('should return a string with the correct camel casing & \"Component\" appended', function() {
+        assert.strictEqual('FoobarComponent', app._generateComponentName('fOoBaR'))
+      });
+    });
+    describe('hyphens in the string', function() {
+      it('should return a string with the correct camel casing & \"Component\" appended', function() {
+        assert.strictEqual('FooBarBazComponent', app._generateComponentName('foo-bar--baz'))
+      });
+    });
+    describe('spaces in the string', function() {
+      it('should return a string with the correct camel casing & \"Component\" appended', function() {
+        assert.strictEqual('FooBarBazComponent', app._generateComponentName('foo bar  baz'))
+      });
+    });
+  });
+  describe( '_generateFileName()', function() {
+    describe('no input', function() {
+      it('should return an empty string', function() {
+        assert.strictEqual('', app._generateFileName())
+      });
+    });
+    describe('without an extension', function() {
+      it('should return the input string with .jsx appended', function() {
+        assert.strictEqual('foobar.jsx', app._generateFileName('foobar'))
+      });
+    });
+    describe('with an extension', function() {
+      it('should return the input string with the extension appended', function() {
+        assert.strictEqual('foobar.baz', app._generateFileName('foobar','baz'))
+      });
+    });
+    describe('mixed casing', function() {
+      it('should return a lowercase string with .jsx appended', function() {
+        assert.strictEqual('foobar.jsx', app._generateFileName('fOoBaR'))
+      });
+    });
+    describe('hyphens in the string', function() {
+      it('should return a lowercase snakecase string with .jsx appended', function() {
+        assert.strictEqual('foo_bar__baz.jsx', app._generateFileName('foo-bar--baz'))
+      });
+    });
+    describe('spaces in the string', function() {
+      it('should return a lowercase snakecase string with .jsx appended', function() {
+        assert.strictEqual('foo_bar__baz.jsx', app._generateFileName('foo bar  baz'))
+      });
+    });
+  });
+  describe( '_generateName()', function() {
+    describe('no input', function() {
+      it('should return an empty string', function() {
+        assert.strictEqual('', app._generateName())
+      });
+    });
+    describe('mixed casing', function() {
+      it('should return a lowercase string', function() {
+        assert.strictEqual('foobar', app._generateName('fOoBaR'))
+      });
+    });
+    describe('underscores in the string', function() {
+      it('should return a lowercase string with hyphens in place of underscores', function() {
+        assert.strictEqual('foo-bar--baz', app._generateName('foo_bar__baz'))
+      });
+    });
+    describe('spaces in the string', function() {
+      it('should return a lowercase string with hyphens in place of spaces', function() {
+        assert.strictEqual('foo-bar--baz', app._generateName('foo bar  baz'))
+      });
+    });
+  });
 });

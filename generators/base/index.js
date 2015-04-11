@@ -48,10 +48,12 @@ module.exports = generators.Base.extend({
   },
 
   _toSnakeCase: function(input) {
+    if(!input) return '';
     return input.toLowerCase().replace(/[\-\ ]/g, '_');
   },
   
   _generateComponentName: function(input) {
+    if(!input) return '';
     var str = '';
     this._toSnakeCase(input).split('_').map(function(part) {
       str += (part.charAt(0).toUpperCase() + part.slice(1));
@@ -60,10 +62,12 @@ module.exports = generators.Base.extend({
   },
 
   _generateFileName: function(input, ext) {
+    if(!input) return '';
     return [this._toSnakeCase(input), (ext || 'jsx')].join('.')
   },
 
   _generateName: function(input) {
+    if(!input) return '';
     return this._toSnakeCase(input).replace(/_/g, '-');
   }
 });
