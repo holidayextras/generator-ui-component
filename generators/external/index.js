@@ -86,9 +86,13 @@ module.exports = BaseGenerator.extend({
   },
   
   writingTests: function() {
+    var view = this._generateFileName(this.name + '_component_view' );
     // Copy the test over
     this._copyAndRenameTemplate('__tests__/test.js', '__tests__/' + this._toSnakeCase(this.name) + '-test.js',
-      {componentName: this.componentName}
+      {
+        view: view,
+        componentName: this.componentName
+      }
     );
 
     // Copy the preprocessor over
