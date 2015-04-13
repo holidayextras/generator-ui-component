@@ -51,7 +51,7 @@ module.exports = BaseGenerator.extend({
   
   configuringVariables: function() {
     this.componentName = this._generateComponentName(this.name);
-    this.viewRoot = path.join('code', this.featureGroup, 'views', this._toSnakeCase(this.name));
+    this.viewRoot = path.join('code', this.featureGroup, 'views', this._generateFolderName(this.name));
     this.name = this._generateName(this.name);
   },
   
