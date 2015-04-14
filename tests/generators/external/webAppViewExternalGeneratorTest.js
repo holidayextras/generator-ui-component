@@ -11,6 +11,7 @@ describe('ui-component:external generator', function(){
   
   var name = "test-module";
   var componentName = 'TestModuleComponent';
+  var fileName = 'test_module_component';
   var description = "a test component";
 
   var npmInstall;
@@ -113,25 +114,25 @@ describe('ui-component:external generator', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, "module.exports = require('./views/" + componentName + "View.jsx');");
+        assert.fileContent(file, "module.exports = require('./views/" + fileName + "_view.jsx');");
       });
     });
     
     describe('views/view.js', function(){
     
-      var file = resultDir + '/code/views/' + componentName + 'View.jsx';
+      var file = resultDir + '/code/views/' + fileName + '_view.jsx';
       
       it('creates the view.js file', function(){
         assert.file(file);
       });
       it('correctly writes the content', function(){
-        assert.fileContent(file, "return require('../templates/" + componentName + "Template.jsx')(this.props);")
+        assert.fileContent(file, "return require('../templates/" + fileName + "_template.jsx')(this.props);")
       });
     });
     
     describe('templates/template.js', function(){
     
-      var file = resultDir + '/code/templates/' + componentName + 'Template.jsx';
+      var file = resultDir + '/code/templates/' + fileName + '_template.jsx';
       
       it('creates the template.js file', function(){
         assert.file(file);

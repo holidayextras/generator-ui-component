@@ -1,4 +1,5 @@
 var generators = require('yeoman-generator');
+var _ = require('lodash');
 
 module.exports = generators.Base.extend({
   promptingName: function () {
@@ -23,8 +24,8 @@ module.exports = generators.Base.extend({
   },
   
   _validateName: function(input) {
-    if(input.match(/^[a-zA-Z\-]+$/)) return true;
-    return 'Name can only include letters and dashes (-)'
+    if(input.match(/^[a-z\_]+$/)) return true;
+    return 'Name can only include letters a-z (lowercase) and underscores (_)';
   },
 
   _filterName: function(input){
@@ -44,6 +45,24 @@ module.exports = generators.Base.extend({
   },
   
   _capitalize: function(input){
-    return input.charAt(0).toUpperCase() + input.slice(1)
+    return input.charAt(0).toUpperCase() + input.slice(1);
+  },
+  
+  _generateComponentName: function(input) {
+    // Effectively this is pascal casing as lodash doesn't have that yet.
+    return _.capitalize(_.camelCase(input) + 'Component');
+  },
+
+  _generateFolderName: function(input) {
+    return _.snakeCase(input);
+  },
+
+  _generateFileName: function(input, ext) {
+    if(!input) return '';
+    return [_.snakeCase(input), (ext || 'jsx')].join('.')
+  },
+
+  _generateName: function(input) {
+    return _.kebabCase(input);
   }
 });

@@ -1,4 +1,3 @@
-var camelCase = require('camel-case');
 var findParentDir = require('find-parent-dir');
 var fs = require('fs');
 var path = require('path');
@@ -51,9 +50,9 @@ module.exports = BaseGenerator.extend({
   },
   
   configuringVariables: function() {
-    this.camelName = camelCase(this.name);
-    this.componentName = this._capitalize(this.camelName) + 'Component';
-    this.viewRoot = path.join('code', this.featureGroup, 'views', this.camelName);
+    this.componentName = this._generateComponentName(this.name);
+    this.viewRoot = path.join('code', this.featureGroup, 'views', this._generateFolderName(this.name));
+    this.name = this._generateName(this.name);
   },
   
   installingDependencies: function () {
@@ -67,9 +66,16 @@ module.exports = BaseGenerator.extend({
   },
   
   writingCodeDir: function () {
-    var componentNameOptions = {componentName: this.componentName};
-    var viewPath = path.join(this.viewRoot, 'views', this.componentName + 'View.jsx');
-    var templatePath = path.join(this.viewRoot, 'templates', this.componentName + 'Template.jsx');
+    var view = this._generateFileName(this.name + '_component_view' );
+    var template = this._generateFileName(this.name + '_component_template' );
+
+    var componentNameOptions = {
+      componentName: this.componentName,
+      view: view,
+      template: template
+    };
+    var viewPath = path.join(this.viewRoot, 'views', view);
+    var templatePath = path.join(this.viewRoot, 'templates', template);
     
     this._copyAndRenameTemplate('index.js', this.viewRoot + '/index.js', componentNameOptions);
     this._copyAndRenameTemplate('views/view.jsx', viewPath, componentNameOptions);
