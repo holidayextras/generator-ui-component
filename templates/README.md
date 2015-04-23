@@ -14,11 +14,15 @@ To build the dev site run:
 ## Usage
 In the javascript file you wish to use it in:
 
-`var <%= componentName %> = require('ui-component-<%= name %>');`
+```jsx
+var <%= componentName %> = require('ui-component-<%= name %>');
+```
 
 Then in your React view add the tags:
 
-`<<%= componentName %> />`
+```jsx
+<<%= componentName %> />
+```
 
 ## Building a distributable version
 To build a distributable version of the component:
@@ -38,7 +42,7 @@ Tests are written using [Jest](https://facebook.github.io/jest/).
 
 ## Example
 
-```
+```jsx
 var React = require('react');
 var <%= componentName %> = require('ui-component-<%= name %>');
 
