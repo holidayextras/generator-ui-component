@@ -1,15 +1,11 @@
 /** @jsx React.DOM */
-
-jest.dontMock('../code/views/<%= view %>');
-
-var React = require('react/addons');
-var <%= componentName %> = require('../code/views/<%= view %>');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var <%= componentName %> = require('../code/views/<%= view %>.jsx');
 
 describe('<%= componentName %>', function() {
 
   it('is an element', function() {
-    expect(TestUtils.isElement(<<%= componentName %> />)).toBeTruthy();
+    assert.ok(TestUtils.isElement(<<%= componentName %> />));
   });
 
 });

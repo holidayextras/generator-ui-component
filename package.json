@@ -1,6 +1,6 @@
 {
   "name": "generator-ui-component",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Generator for the holidayextras webapp views template",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,17 @@
   "keywords": [
     "yeoman-generator"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/holidayextras/generator-ui-component.git"
+  },
   "author": "Luke Hansell <luke.hansell@holidayextras.com>",
+  "contributors": [
+    {
+      "name": "Peter Schmalfeldt",
+      "email": "me@peterschmalfeldt.com"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "amp-extend": "^1.0.1",

@@ -23,17 +23,17 @@ describe('ui-component:base generator', function () {
   describe('_filterName()', function(){
     describe('with filtered text at start', function(){
       it('should remove the filtered text', function(){
-        assert.equal('test-app', app._filterName('ui-component-test-app'));
+        assert.equal('test-app', app._filterName('component-test-app'));
       });
     });
     describe('with filtered text during string', function(){
       it('should return the complete string', function(){
-        assert.equal('test-ui-component-app', app._filterName('test-ui-component-app'));
+        assert.equal('test-component-app', app._filterName('test-component-app'));
       });
     });
     describe('with filtered text at end of string', function(){
       it('should return the complete string', function(){
-        assert.equal('test-app-ui-component', app._filterName('test-app-ui-component'));
+        assert.equal('test-app-component', app._filterName('test-app-component'));
       });
     });
     describe('without filtered text in string', function(){
@@ -98,13 +98,13 @@ describe('ui-component:base generator', function () {
       });
     });
     describe('mixed casing', function() {
-      it('should return a snakecase string with .jsx appended', function() {
-        assert.strictEqual('f_oo_ba_r.jsx', app._generateFileName('fOoBaR'))
+      it('should return a camel case string with .jsx appended', function() {
+        assert.strictEqual('fOoBaR.jsx', app._generateFileName('fOoBaR'))
       });
     });
     describe('hyphens in the string', function() {
-      it('should return a snakecase string with .jsx appended', function() {
-        assert.strictEqual('foo_bar_baz.jsx', app._generateFileName('foo-bar--baz'))
+      it('should return a camel case string with .jsx appended', function() {
+        assert.strictEqual('fooBarBaz.jsx', app._generateFileName('foo-bar--baz'))
       });
     });
   });

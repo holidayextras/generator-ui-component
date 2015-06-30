@@ -5,10 +5,6 @@ var path = require('path');
 module.exports = generators.Base.extend({
 
   initializing: function () {
-    if( findParentDir.sync(path.resolve(''), 'package.json') ) {
-      this.composeWith('ui-component:internal');
-    } else {
-      this.composeWith('ui-component:external');
-    }
+    this.composeWith('ui-component:generate');
   }
 });

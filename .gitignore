@@ -1,3 +1,25 @@
+# OSX
+.DS_Store
+.DS_Store?
+.log
+
+# SublimeText
+*.sublime-project
+*.sublime-workspace
 .idea
+
+# Vim
+*.swp
+
+# CodeKit
+config.codekit
+.codekit-config
+.codekit-config.json
+
+
+.DS_Store
 tests/generators/app/tmp
+tests/generators/base/tmp
+tests/generators/generate/tmp
 node_modules
+npm-debug.log
