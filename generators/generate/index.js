@@ -31,27 +31,14 @@ module.exports = BaseGenerator.extend({
   },
   
   scaffoldFolders: function(){
-    this.mkdir("code/styles");
     this.mkdir("code/templates");
     this.mkdir("code/views");
-    this.mkdir("dev");
-    this.mkdir("dist");
-    this.mkdir("scripts");
     this.mkdir("__tests__");
   },
   
-  writingPackage: function () {
-    var options = {
-      name: this.name,
-      description: this.description
-    };
-    
-    this._copyTemplate('package.json', options);
-  },
-  
   writingCodeDir: function () {
-    var view = this._generateFileName(this.name + '_component_view' );
-    var template = this._generateFileName(this.name + '_component_template' );
+    var view = this._generateFileName(this.name + 'View' );
+    var template = this._generateFileName(this.name + 'Template' );
 
     var componentNameOptions = {
       componentName: this.componentName,
@@ -67,24 +54,6 @@ module.exports = BaseGenerator.extend({
     this._copyAndRenameTemplate('code/templates/template.jsx', 'code/templates/' + template, options);
   },
   
-  writingDevDir: function () {
-    var indexOptions = {name: this.name};
-    var exampleOptions = {componentName: this.componentName};
-
-    this._copyTemplate('dev/index.html', indexOptions);
-    this._copyTemplate('dev/example.jsx', exampleOptions);
-  },
-  
-  writingDistDir: function () {
-    this._copyAndRenameTemplate('dist/_gitkeep', 'dist/.gitkeep');
-  },
-  
-  writingScriptsDir: function () {
-    var options = {name: this.name};
-    this._copyTemplate('scripts/build-dev.sh', options);
-    this._copyTemplate('scripts/build-dist.sh', options);
-  },
-  
   writingTests: function() {
     var view = this._generateFileName(this.name + '_component_view' );
     // Copy the test over
@@ -94,31 +63,13 @@ module.exports = BaseGenerator.extend({
         componentName: this.componentName
       }
     );
-
-    // Copy the preprocessor over
-    this._copyTemplate('preprocessor.js');
   },
   
   writingBaseDir: function () {
     this._copyTemplate('index.js');
-    this._copyAndRenameTemplate('_gitignore', '.gitignore');
-    
-    var readmeOptions = {
-      name: this.name,
-      description: this.description,
-      componentName: this.componentName
-    };
-    this._copyTemplate('README.md', readmeOptions);
   },
   
   installDependencies: function () {
     this.installingNPMDependencies();
-  },
-  
-  installingPermissions: function () {
-    var done = this.async();
-    fs.chmod('scripts/build-dev.sh', '755', function(){
-      done();
-    });
   }
 });

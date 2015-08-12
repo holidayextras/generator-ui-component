@@ -17,23 +17,6 @@ describe('ui-component generator', function(){
     composeWith.restore();
   });
 
-  describe('when in find-parent-dir returns directories', function(){
-    beforeEach(function(done){
-      findParentDirSync = sinon.stub(findParentDir, 'sync').returns(['foo', 'bar']);
-      this.app.run(function () {
-        done();
-      });
-    });
-    
-    afterEach(function(){
-      findParentDirSync.restore();
-    });
-    
-    it('uses the internal generator', function(){
-      assert.ok(composeWith.calledWith('ui-component:internal'));
-    });
-  });
-
   describe('when find-parent-dir returns no directories', function(){
     beforeEach(function(done){
       findParentDirSync = sinon.stub(findParentDir, 'sync').returns(null);
@@ -46,8 +29,8 @@ describe('ui-component generator', function(){
       findParentDirSync.restore();
     });
 
-    it('uses the external generator', function(){
-      assert.ok(composeWith.calledWith('ui-component:external'));
+    it('uses the component generator', function(){
+      assert.ok(composeWith.calledWith('ui-component:generate'));
     });
   });
   

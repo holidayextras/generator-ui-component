@@ -1,7 +1,5 @@
-var React = require('react');
-
 module.exports = React.createClass({
   render: function() {
-    return require('../templates/<%= template %>')(this.props);
+    return require('../templates/<%= template %>')(this);
   }
 });

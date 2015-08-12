@@ -1,8 +1,6 @@
-var React = require('react');
-
-module.exports = function(props) {
+module.exports = function(component) {
   return (
-    <div className="ui-component-<%= name %>">
+    <div className="component-<%= name %>">
     {/* Insert your component html here */}
     </div>
   );

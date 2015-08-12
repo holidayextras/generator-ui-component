@@ -8,7 +8,7 @@ module.exports = generators.Base.extend({
     this.prompt({
       type: 'input',
       name: 'name',
-      message: 'view name [ui-component-]',
+      message: 'view name [component-]',
       default: this.appname,
       validate: this._validateName,
       filter: this._filterName
@@ -29,7 +29,7 @@ module.exports = generators.Base.extend({
   },
 
   _filterName: function(input){
-    return input.replace(/^ui\-component\-/, '');
+    return input.replace(/^component\-/, '');
   },
   
   _copyAndRenameTemplate: function(template, destination, options) {
@@ -59,7 +59,7 @@ module.exports = generators.Base.extend({
 
   _generateFileName: function(input, ext) {
     if(!input) return '';
-    return [_.snakeCase(input), (ext || 'jsx')].join('.')
+    return [_.camelCase(input), (ext || 'jsx')].join('.')
   },
 
   _generateName: function(input) {
